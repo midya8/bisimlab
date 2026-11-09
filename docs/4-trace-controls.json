@@ -1,0 +1,246 @@
+[
+  {
+    "name": "Delayed failure",
+    "why": "Equal first actions can hide a mismatch two steps later.",
+    "input": {
+      "system": {
+        "states": [
+          "p",
+          "q",
+          "r",
+          "s",
+          "z"
+        ],
+        "actions": [
+          "ask",
+          "done"
+        ],
+        "edges": [
+          [
+            "p",
+            "ask",
+            "r"
+          ],
+          [
+            "q",
+            "ask",
+            "s"
+          ],
+          [
+            "r",
+            "done",
+            "z"
+          ]
+        ]
+      },
+      "pair": [
+        "p",
+        "q"
+      ]
+    }
+  },
+  {
+    "name": "Late vs early agent choice",
+    "why": "The same finite trace language does not preserve a choice after action a.",
+    "input": {
+      "system": {
+        "states": [
+          "p",
+          "q",
+          "r",
+          "s",
+          "t",
+          "z"
+        ],
+        "actions": [
+          "a",
+          "b",
+          "c"
+        ],
+        "edges": [
+          [
+            "p",
+            "a",
+            "r"
+          ],
+          [
+            "q",
+            "a",
+            "s"
+          ],
+          [
+            "q",
+            "a",
+            "t"
+          ],
+          [
+            "r",
+            "b",
+            "z"
+          ],
+          [
+            "r",
+            "c",
+            "z"
+          ],
+          [
+            "s",
+            "b",
+            "z"
+          ],
+          [
+            "t",
+            "c",
+            "z"
+          ]
+        ]
+      },
+      "pair": [
+        "p",
+        "q"
+      ]
+    }
+  },
+  {
+    "name": "Matched retry cycles",
+    "why": "A one-state loop and a two-state cycle can be bisimilar.",
+    "input": {
+      "system": {
+        "states": [
+          "p",
+          "q",
+          "r"
+        ],
+        "actions": [
+          "retry"
+        ],
+        "edges": [
+          [
+            "p",
+            "retry",
+            "p"
+          ],
+          [
+            "q",
+            "retry",
+            "r"
+          ],
+          [
+            "r",
+            "retry",
+            "q"
+          ]
+        ]
+      },
+      "pair": [
+        "p",
+        "q"
+      ]
+    }
+  },
+  {
+    "name": "Deadlocks",
+    "why": "State names alone are not observations. Both deadlocks are equivalent.",
+    "input": {
+      "system": {
+        "states": [
+          "idle",
+          "halt"
+        ],
+        "actions": [],
+        "edges": []
+      },
+      "pair": [
+        "idle",
+        "halt"
+      ]
+    }
+  },
+  {
+    "name": "Visible tau",
+    "why": "No silent-action abstraction: tau is an ordinary visible action here.",
+    "input": {
+      "system": {
+        "states": [
+          "idle",
+          "retry"
+        ],
+        "actions": [
+          "tau"
+        ],
+        "edges": [
+          [
+            "retry",
+            "tau",
+            "retry"
+          ]
+        ]
+      },
+      "pair": [
+        "idle",
+        "retry"
+      ]
+    }
+  },
+  {
+    "name": "Single empty state",
+    "why": "The universal relation is already stable; no formula separates a state from itself.",
+    "input": {
+      "system": {
+        "states": [
+          "only"
+        ],
+        "actions": [],
+        "edges": []
+      },
+      "pair": [
+        "only",
+        "only"
+      ]
+    }
+  },
+  {
+    "name": "Nondeterministic state union",
+    "why": "Action a unions two targets; later b keeps one branch alive. The graph continues after mismatch.",
+    "input": {
+      "system": {
+        "states": [
+          "p",
+          "q",
+          "r",
+          "z"
+        ],
+        "actions": [
+          "a",
+          "b"
+        ],
+        "edges": [
+          [
+            "p",
+            "a",
+            "r"
+          ],
+          [
+            "p",
+            "a",
+            "z"
+          ],
+          [
+            "q",
+            "a",
+            "z"
+          ],
+          [
+            "r",
+            "b",
+            "r"
+          ]
+        ]
+      },
+      "pair": [
+        "p",
+        "q"
+      ]
+    }
+  }
+]
