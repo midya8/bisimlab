@@ -53,3 +53,19 @@ All labels are visible, including `tau`. No weak/branching-bisimulation abstract
 First-removal rank equals minimum modal distinguishing depth in this finite visible-action logic. Formula size, negation depth and displayed syntax are not minimized. Formula DAG references share subexpressions; no claim of quasilinear construction. Trace comparison is exponential in the state cap. No new algorithm, benchmark superiority, formal proof or cryptographic authenticity claim.
 
 Established theory is attributed in [METHOD.md](METHOD.md). Code, UI and fixtures were written for this project. MIT licensed.
+
+
+## Exact trace-product replay (v0.2)
+
+[Trace-product inspector](https://midya8.github.io/bisimlab/traces.html) · [Trace method](TRACES.md)
+
+For a single state pair, inspect every reachable paired subset, all action successors, canonical BFS discovery parents/depths, complete mismatch-node list and a shortest counterexample path. Unlike the base summary, this mode keeps exploring after finding a mismatch and retains the entire closed reachable graph. It stores provenance links instead of repeating full path strings at every node. No depth cutoff and no claim that the listed mismatch nodes enumerate all distinguishing words.
+
+```bash
+python -m bisimlab pair.json --traces --output product.json
+python -m bisimlab product.json --traces --verify
+```
+
+Input is exactly `{"system":{"states":["p","q"],"actions":[],"edges":[]},"pair":["p","q"]}`. Same bounded LTS schema; the pair can repeat a state. Finite-word possibility means a nonempty reachable subset, not arbitrary accepting-state NFA semantics. A native explicit-subset transition-table checker replays the complete report without invoking the bitmask generator.
+
+Seventeen native tests retain all nine base tests and add all 512 unary three-state graphs with all nine ordered starting pairs, direct path-enumeration checks, 120 seeded products, forged graph/provenance/frontier/witness rejection, generator-disabled replay, input/empty-action boundaries and strict atomic CLI modes. Six Node/actual-Chrome tests retain all three base tests; 4,715 complete independent trace reports match (13,001 nodes, 13,926 successor edges, 1,156 mismatch nodes). Seven UI controls expose 18 nodes, 32 successors, 15 BFS layers, three mismatch nodes and eight witness-path prefixes, each record checked at 320/390/1280 along with export and stale-result clearing. Installed checks now cover six base and seven trace reports through both entry points and six module origins outside checkout. These are fixture counts, not general proofs or benchmark claims. Base core, verifier, original five demo assets and original tests are unchanged.
