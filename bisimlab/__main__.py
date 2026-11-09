@@ -6,6 +6,8 @@ from pathlib import Path
 import sys
 import tempfile
 from . import analyze, verify
+from .trace_audit import audit_traces
+from .trace_verify import verify_traces
 
 
 def load(text):
@@ -20,7 +22,7 @@ def load(text):
 
 def main():
     ap=argparse.ArgumentParser(description='Inspect finite strong bisimulation and modal witnesses')
-    ap.add_argument('input',help='JSON path, or - for stdin');ap.add_argument('--verify',action='store_true');ap.add_argument('--output')
+    ap.add_argument('input',help='JSON path, or - for stdin');ap.add_argument('--verify',action='store_true');ap.add_argument('--traces',action='store_true',help='Audit a single pair reachable-subset product');ap.add_argument('--output')
     args=ap.parse_args()
     try:
         cap=8*1024*1024 if args.verify else 65536
@@ -28,9 +30,9 @@ def main():
         if len(raw)>cap: raise ValueError('Input exceeds byte limit')
         data=load(raw.decode('utf-8'))
         if args.verify:
-            if not verify(data): raise ValueError('Invalid report')
-            output={'valid':True,'schema':'bisimlab-v1'}
-        else: output=analyze(data)
+            if not (verify_traces(data) if args.traces else verify(data)): raise ValueError('Invalid report')
+            output={'valid':True,'schema':'bisimlab-traces-v1' if args.traces else 'bisimlab-v1'}
+        else: output=audit_traces(data) if args.traces else analyze(data)
         text=json.dumps(output,indent=2,allow_nan=False)+'\n'
         if args.output:
             target=Path(args.output);tmp=None
