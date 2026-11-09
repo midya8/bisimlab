@@ -1,0 +1,166 @@
+[
+  {
+    "name": "Late vs early agent choice",
+    "why": "The same finite trace language does not preserve a choice after action a.",
+    "system": {
+      "states": [
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "z"
+      ],
+      "actions": [
+        "a",
+        "b",
+        "c"
+      ],
+      "edges": [
+        [
+          "p",
+          "a",
+          "r"
+        ],
+        [
+          "q",
+          "a",
+          "s"
+        ],
+        [
+          "q",
+          "a",
+          "t"
+        ],
+        [
+          "r",
+          "b",
+          "z"
+        ],
+        [
+          "r",
+          "c",
+          "z"
+        ],
+        [
+          "s",
+          "b",
+          "z"
+        ],
+        [
+          "t",
+          "c",
+          "z"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "Matched retry cycles",
+    "why": "A one-state loop and a two-state cycle can be bisimilar.",
+    "system": {
+      "states": [
+        "p",
+        "q",
+        "r"
+      ],
+      "actions": [
+        "retry"
+      ],
+      "edges": [
+        [
+          "p",
+          "retry",
+          "p"
+        ],
+        [
+          "q",
+          "retry",
+          "r"
+        ],
+        [
+          "r",
+          "retry",
+          "q"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "Delayed failure",
+    "why": "Equal first actions can hide a mismatch two steps later.",
+    "system": {
+      "states": [
+        "p",
+        "q",
+        "r",
+        "s",
+        "z"
+      ],
+      "actions": [
+        "ask",
+        "done"
+      ],
+      "edges": [
+        [
+          "p",
+          "ask",
+          "r"
+        ],
+        [
+          "q",
+          "ask",
+          "s"
+        ],
+        [
+          "r",
+          "done",
+          "z"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "Deadlocks",
+    "why": "State names alone are not observations. Both deadlocks are equivalent.",
+    "system": {
+      "states": [
+        "idle",
+        "halt"
+      ],
+      "actions": [],
+      "edges": []
+    }
+  },
+  {
+    "name": "Visible tau",
+    "why": "No silent-action abstraction: tau is an ordinary visible action here.",
+    "system": {
+      "states": [
+        "idle",
+        "retry"
+      ],
+      "actions": [
+        "tau"
+      ],
+      "edges": [
+        [
+          "retry",
+          "tau",
+          "retry"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "Single empty state",
+    "why": "The universal relation is already stable; no formula separates a state from itself.",
+    "system": {
+      "states": [
+        "only"
+      ],
+      "actions": [],
+      "edges": []
+    }
+  }
+]
