@@ -3,11 +3,12 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "bisimlab"
-version = "0.2.0"
+version = "0.3.0"
 description = "Bounded agent-protocol bisimulation, modal witnesses and independent report replay"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 [project.scripts]
 bisimlab = "bisimlab.__main__:main"
+bisimlab-silent = "bisimlab.silent:main"
 [tool.setuptools.packages.find]
 include = ["bisimlab*"]
