@@ -1,0 +1,346 @@
+[
+  {
+    "name": "Weak can discard a branching option",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "actions": [
+          "i",
+          "a",
+          "b"
+        ],
+        "edges": [
+          [
+            "s0",
+            "a",
+            "s3"
+          ],
+          [
+            "s0",
+            "b",
+            "s3"
+          ],
+          [
+            "s0",
+            "i",
+            "s2"
+          ],
+          [
+            "s1",
+            "a",
+            "s3"
+          ],
+          [
+            "s1",
+            "i",
+            "s2"
+          ],
+          [
+            "s2",
+            "b",
+            "s3"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    },
+    "note": "States s0/s1 are weakly but not branching bisimilar. The matched visible step can lose an intermediate choice. Reconstructed standard contrast from Bisping, chapter6 Example6.3; not a new counterexample."
+  },
+  {
+    "name": "Deadlock is not livelock, even when hidden",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1"
+        ],
+        "actions": [
+          "i"
+        ],
+        "edges": [
+          [
+            "s1",
+            "i",
+            "s1"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    },
+    "note": "States are branching/weak equivalent under divergence-insensitive semantics, yet only s1 can diverge. No termination guarantee follows."
+  },
+  {
+    "name": "Internal prefix can be ignored",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2"
+        ],
+        "actions": [
+          "i",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "i",
+            "s1"
+          ],
+          [
+            "s1",
+            "a",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    },
+    "note": "s0/s1 are branching but not strongly bisimilar."
+  },
+  {
+    "name": "No actions, all deadlocks",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1"
+        ],
+        "actions": [],
+        "edges": []
+      },
+      "silent": []
+    },
+    "note": "State names are not observations. Both deadlocks are equivalent."
+  },
+  {
+    "name": "Two distinct hidden labels become one silent action",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2"
+        ],
+        "actions": [
+          "x",
+          "y",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "x",
+            "s1"
+          ],
+          [
+            "s1",
+            "y",
+            "s0"
+          ],
+          [
+            "s0",
+            "a",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "x",
+        "y"
+      ]
+    },
+    "note": "Both supplied hidden labels are treated as the same unobservable action, not matched by their original names."
+  },
+  {
+    "name": "A tau label is not automatically hidden",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1"
+        ],
+        "actions": [
+          "tau"
+        ],
+        "edges": [
+          [
+            "s0",
+            "tau",
+            "s0"
+          ]
+        ]
+      },
+      "silent": []
+    },
+    "note": "Only labels explicitly listed in silent are hidden. Strong mode always keeps all original labels visible."
+  },
+  {
+    "name": "Suffix silence needs reflexive closure",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "actions": [
+          "i",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "a",
+            "s2"
+          ],
+          [
+            "s2",
+            "i",
+            "s3"
+          ],
+          [
+            "s1",
+            "a",
+            "s3"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    },
+    "note": "A visible response can include a silent suffix. Empty paths remain possible."
+  },
+  {
+    "name": "Silent cycle with a visible exit",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2"
+        ],
+        "actions": [
+          "i",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "i",
+            "s1"
+          ],
+          [
+            "s1",
+            "i",
+            "s0"
+          ],
+          [
+            "s1",
+            "a",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    },
+    "note": "A finite cycle witness records possible divergence; it is not a fairness or divergence-preserving equivalence check."
+  },
+  {
+    "name": "Nondeterministic visible commitment stays distinct",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "actions": [
+          "i",
+          "a",
+          "b"
+        ],
+        "edges": [
+          [
+            "s0",
+            "a",
+            "s2"
+          ],
+          [
+            "s0",
+            "a",
+            "s3"
+          ],
+          [
+            "s1",
+            "a",
+            "s2"
+          ],
+          [
+            "s2",
+            "b",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    },
+    "note": "Hiding an unused label does not erase different visible choices."
+  },
+  {
+    "name": "One silent dead end can matter",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2"
+        ],
+        "actions": [
+          "i",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "a",
+            "s2"
+          ],
+          [
+            "s0",
+            "i",
+            "s2"
+          ],
+          [
+            "s1",
+            "a",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    },
+    "note": "A silent step can discard all visible options, so not every internal action is inert."
+  }
+]
