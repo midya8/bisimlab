@@ -1,0 +1,56 @@
+{
+  "system": {
+    "states": [
+      "s",
+      "s1",
+      "s2",
+      "t",
+      "t1",
+      "t2"
+    ],
+    "actions": [
+      "internal",
+      "a"
+    ],
+    "edges": [
+      [
+        "s",
+        "internal",
+        "s"
+      ],
+      [
+        "s",
+        "internal",
+        "s1"
+      ],
+      [
+        "s",
+        "a",
+        "s2"
+      ],
+      [
+        "s1",
+        "internal",
+        "s1"
+      ],
+      [
+        "t",
+        "internal",
+        "t1"
+      ],
+      [
+        "t",
+        "a",
+        "t2"
+      ],
+      [
+        "t1",
+        "internal",
+        "t1"
+      ]
+    ]
+  },
+  "silent": [
+    "internal"
+  ]
+}
