@@ -84,3 +84,18 @@ python -m bisimlab.silent --verify /tmp/silent.json
 ```
 
 Independent path/set reconstruction replays every field without calling the generator. Small-case test oracles enumerate candidate relations instead of refining them. Native/JS complete reports agree on1,154 requests; the optional unmodified mCRL2 ltscompare202507.0 agrees on350 systems/5,652 pair-semantics comparisons. All23 native tests pass on3.10-3.13, all9 Node/Chrome tests pass, and an installed wheel reproduces6 base,7 trace and10 silent controls through four entrypoints outside the checkout, with eight checked module origins and20 forged-report rejections. Actual local Chrome checks30 reports at320/390/1280,294 rounds,498 removed-pair selections,960 attacks,414 response records and10 independently verified downloads. These are bounded coverage counts, not a proof or performance benchmark.
+
+## The loop must stay inside (v0.4)
+
+[Separate explicit-divergence inspector](https://midya8.github.io/bisimlab/divergence.html) · [Exact contract and inspected sources](DIVERGENCE.md)
+
+Both states can admit infinite silent activity and still fail **divergence-preserving branching equivalence**. The credited Luttik2020 Example3 control makes the missing obligation visible: divergence must stay inside the related class, not merely reach any silent cycle. Every set partition is enumerated (at most203), with complete per-state internal reachability, exit signatures, canonical nonempty-cycle lassos and all failed equal-block obligations. Ordinary branching and explicit-divergence coarsest classes are kept separate. These are exhaustive candidates, not fixed-point rounds.
+
+```sh
+python -m bisimlab.divergence examples/divergence.json -o /tmp/divergence.json
+python -m bisimlab.divergence /tmp/divergence.json --verify
+```
+
+32 native tests retain all23 prior checks. A separate direct relational/matrix oracle checks every candidate across the two small exhaustive graph corpora; an independent simple-path/partition checker reconstructs full evidence without generator imports. All220 declared non-input primitive-leaf mutations are rejected. Complete Python/JavaScript reports agree on1,157 requests (8,720 partitions,37,743 state records,19,346 failures). Actual unmodified pinned mCRL2 agrees on353 frameworks/3,672 unordered-pair/semantics comparisons, not every witness field. Three new Node/Chrome tests supplement the unchanged nine; the fresh wheel preserves all previous installed checks and adds13 controls through two entrypoints with26 forgery rejections.
+
+Real Chrome checks39 reports at1280/390/320, every843 candidate selection/4,467 state record/2,955 failure record,13 completed native-verified JSON downloads and47 full pixel states. Six-state/eighteen-edge limits are explicit. No new algorithm, production program verification, fairness, formal proof or real-world agent guarantee. Technical divergence-sensitive branching, rooted and stability-respecting notions are not substituted for this mode. All earlier APIs, tests and demo assets remain unchanged.

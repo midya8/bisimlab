@@ -1,0 +1,21 @@
+/* Independent finite explicit-divergence atlas. Original Python report data is not embedded. */
+import {validate} from './engine.js';
+export function analyzeDivergence(raw){
+ if(!raw||typeof raw!=='object'||Array.isArray(raw)||Object.keys(raw).sort().join('|')!=='silent|system')throw Error('Expected exactly system and silent');
+ const system=validate(raw.system),silent=raw.silent;
+ if(!Array.isArray(silent)||silent.some(a=>typeof a!=='string'||!system.actions.includes(a))||new Set(silent).size!==silent.length)throw Error('Invalid silent labels');
+ const hidden=system.actions.filter(a=>silent.includes(a)),n=system.states.length,ids=Array.from({length:n},(_,i)=>i),edges=system.edges.map(([s,a,t])=>[system.states.indexOf(s),a,system.states.indexOf(t)]),lex=(a,b)=>{for(let i=0;i<Math.min(a.length,b.length);i++)if(a[i]!==b[i])return a[i]-b[i];return a.length-b.length;},short=(a,b)=>a.length-b.length||lex(a,b);
+ let blocks=[[]];for(const s of ids){const next=[];for(const p of blocks)for(let j=0;j<=p.length;j++){const q=p.map(b=>b.slice());if(j===q.length)q.push([s]);else q[j].push(s);next.push(q);}blocks=next;}
+ const labelings=blocks.map(bs=>ids.map(s=>bs.findIndex(b=>b.includes(s)))).sort(lex),candidates=[];
+ for(const labels of labelings){const states=[];for(const s of ids){const paths=new Map(),cycles=new Map();
+  for(const root of ids.filter(p=>labels[p]===labels[s])){const found=[],loops=[];const walk=(p,seen,path)=>{found.push([p,path]);edges.forEach(([u,a,v],eid)=>{if(u!==p||!hidden.includes(a)||labels[v]!==labels[s])return;if(v===root)loops.push([...path,eid]);if(!seen.has(v))walk(v,new Set([...seen,v]),[...path,eid]);});};walk(root,new Set([root]),[]);paths.set(root,new Map(ids.filter(t=>found.some(([q])=>q===t)).map(t=>[t,found.filter(([q])=>q===t).map(([,p])=>p).sort(short)[0]])));if(loops.length)cycles.set(root,loops.sort(short)[0]);}
+  const reach=paths.get(s),exits=[];for(const a of system.actions){if(hidden.includes(a)&&a!==hidden[0])continue;for(let b=0;b<=Math.max(...labels);b++){if(hidden.includes(a)&&b===labels[s])continue;const ways=[];for(const[p,prefix]of reach)edges.forEach(([u,c,v],eid)=>{if(u===p&&labels[v]===b&&(c===a||(hidden.includes(c)&&hidden.includes(a))))ways.push([...prefix,eid]);});if(ways.length){const path=ways.sort(short)[0];exits.push({action:hidden.includes(a)?null:a,block:b,path,edge:path.at(-1)});}}}
+  const options=Array.from(reach).filter(([p])=>cycles.has(p)).map(([at,prefix])=>({at,prefix,cycle:cycles.get(at)})).sort((a,b)=>a.prefix.length+a.cycle.length-b.prefix.length-b.cycle.length||lex(a.prefix,b.prefix)||lex(a.cycle,b.cycle));
+  states.push({state:s,block:labels[s],inert:Array.from(reach).sort((a,b)=>a[0]-b[0]).map(([target,path])=>({target,path})),exits,divergent:options.length>0,witness:options[0]??null});
+ }
+ const failures=[];for(const p of ids)for(const q of ids){if(q<=p||labels[p]!==labels[q])continue;const sig=s=>JSON.stringify(states[s].exits.map(x=>[x.action,x.block]));if(sig(p)!==sig(q))failures.push({pair:[p,q],kind:'exit',left:states[p].exits,right:states[q].exits});if(states[p].divergent!==states[q].divergent)failures.push({pair:[p,q],kind:'divergence',left:states[p].witness,right:states[q].witness});}
+ candidates.push({index:candidates.length,labels,states,branching:!failures.some(f=>f.kind==='exit'),preserving:failures.length===0,failures});}
+ const families=['branching','preserving'].map(semantics=>{const valid=candidates.filter(c=>c[semantics]),relation=ids.flatMap(p=>ids.filter(q=>valid.some(c=>c.labels[p]===c.labels[q])).map(q=>[p,q])),winner=valid.filter(c=>relation.every(([p,q])=>c.labels[p]===c.labels[q]));if(winner.length!==1)throw Error('Missing coarsest partition');const c=winner[0];return{semantics,accepted:valid.map(c=>c.index),coarsest:c.index,relation,classes:Array.from({length:Math.max(...c.labels)+1},(_,b)=>ids.filter(p=>c.labels[p]===b))};});
+ const lost_pairs=families[0].relation.filter(p=>!families[1].relation.some(q=>p[0]===q[0]&&p[1]===q[1]));
+ return{schema:'bisimlab-divergence-v1',input:{system,silent:hidden},candidates,families,lost_pairs,checks:{preserving_subset_branching:true,coarsest_contains_all_accepted:true},counts:{partitions:candidates.length,state_records:candidates.reduce((s,c)=>s+c.states.length,0),failures:candidates.reduce((s,c)=>s+c.failures.length,0)}};
+}

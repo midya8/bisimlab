@@ -1,0 +1,29 @@
+name: Check explicit divergence
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  divergence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: browser-actions/setup-chrome@v1
+        id: chrome
+      - run: PYTHONPATH=. python tools/check_divergence_installed.py
+      - run: node --test tests/test_divergence_engine.mjs tests/test_divergence_browser.cjs
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
+      - name: Fetch pinned unmodified optional reference
+        run: |
+          curl --fail --location --silent --show-error 'https://ppa.launchpadcontent.net/mcrl2/release-ppa/ubuntu/pool/main/m/mcrl2/mcrl2_202507.0.1-1ubuntu1ppa1~jammy_amd64.deb' -o /tmp/mcrl2.deb
+          echo '70711c755b1520df061c3a1d25a77da971a920b963da9b9f3182861a2b9ad1f4  /tmp/mcrl2.deb' | sha256sum -c -
+          dpkg-deb -x /tmp/mcrl2.deb /tmp/mcrl2-reference
+      - run: PYTHONPATH=. python tools/check_divergence_mcrl2.py --ltscompare /tmp/mcrl2-reference/usr/bin/ltscompare
