@@ -39,3 +39,7 @@ Sources were read on November 9, 2026. These establish theory and scope; none es
 See README for concrete test counts. An exhaustive tiny reference enumerates symmetric diagonal-containing relations directly, independent of fixed-point/partition implementations. Native and browser engines agree on complete reports; this is cross-implementation evidence, not proof. The wheel check runs both installed entry points outside checkout and checks four site-packages module origins.
 
 No probabilistic systems, transition weights, propositions, weak or branching bisimulation, fairness, rewards, source-code extraction, accepting states, causal attribution or real-agent safety claim. Trace equality alone cannot establish branching equivalence. A syntactically valid hand-written model can omit behavior of the real system it describes.
+
+## Explicitly hidden actions
+
+The separate [silent-action inspector](https://midya8.github.io/bisimlab/silent.html) computes strong, unrooted divergence-insensitive branching and weak bisimilarity. The original inspector still treats every label as visible. See [SILENT.md](SILENT.md) for exact endpoint obligations, finite canonical response skeletons, possible-divergence warnings, independent replay, native/browser/external checks and credited definitions. No divergence-preserving or rooted equivalence is implied.
