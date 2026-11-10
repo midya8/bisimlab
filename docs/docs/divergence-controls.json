@@ -1,0 +1,462 @@
+[
+  {
+    "name": "A cycle flag is not enough",
+    "credit": "Luttik2020 Example3/Figure1, reconstructed",
+    "input": {
+      "system": {
+        "states": [
+          "s",
+          "s1",
+          "s2",
+          "t",
+          "t1",
+          "t2"
+        ],
+        "actions": [
+          "internal",
+          "a"
+        ],
+        "edges": [
+          [
+            "s",
+            "internal",
+            "s"
+          ],
+          [
+            "s",
+            "internal",
+            "s1"
+          ],
+          [
+            "s",
+            "a",
+            "s2"
+          ],
+          [
+            "s1",
+            "internal",
+            "s1"
+          ],
+          [
+            "t",
+            "internal",
+            "t1"
+          ],
+          [
+            "t",
+            "a",
+            "t2"
+          ],
+          [
+            "t1",
+            "internal",
+            "t1"
+          ]
+        ]
+      },
+      "silent": [
+        "internal"
+      ]
+    }
+  },
+  {
+    "name": "Weak can discard a branching option",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "actions": [
+          "i",
+          "a",
+          "b"
+        ],
+        "edges": [
+          [
+            "s0",
+            "a",
+            "s3"
+          ],
+          [
+            "s0",
+            "b",
+            "s3"
+          ],
+          [
+            "s0",
+            "i",
+            "s2"
+          ],
+          [
+            "s1",
+            "a",
+            "s3"
+          ],
+          [
+            "s1",
+            "i",
+            "s2"
+          ],
+          [
+            "s2",
+            "b",
+            "s3"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    }
+  },
+  {
+    "name": "Deadlock is not livelock, even when hidden",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1"
+        ],
+        "actions": [
+          "i"
+        ],
+        "edges": [
+          [
+            "s1",
+            "i",
+            "s1"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    }
+  },
+  {
+    "name": "Internal prefix can be ignored",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2"
+        ],
+        "actions": [
+          "i",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "i",
+            "s1"
+          ],
+          [
+            "s1",
+            "a",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    }
+  },
+  {
+    "name": "No actions, all deadlocks",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1"
+        ],
+        "actions": [],
+        "edges": []
+      },
+      "silent": []
+    }
+  },
+  {
+    "name": "Two distinct hidden labels become one silent action",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2"
+        ],
+        "actions": [
+          "x",
+          "y",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "x",
+            "s1"
+          ],
+          [
+            "s1",
+            "y",
+            "s0"
+          ],
+          [
+            "s0",
+            "a",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "x",
+        "y"
+      ]
+    }
+  },
+  {
+    "name": "A tau label is not automatically hidden",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1"
+        ],
+        "actions": [
+          "tau"
+        ],
+        "edges": [
+          [
+            "s0",
+            "tau",
+            "s0"
+          ]
+        ]
+      },
+      "silent": []
+    }
+  },
+  {
+    "name": "Suffix silence needs reflexive closure",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "actions": [
+          "i",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "a",
+            "s2"
+          ],
+          [
+            "s2",
+            "i",
+            "s3"
+          ],
+          [
+            "s1",
+            "a",
+            "s3"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    }
+  },
+  {
+    "name": "Silent cycle with a visible exit",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2"
+        ],
+        "actions": [
+          "i",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "i",
+            "s1"
+          ],
+          [
+            "s1",
+            "i",
+            "s0"
+          ],
+          [
+            "s1",
+            "a",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    }
+  },
+  {
+    "name": "Nondeterministic visible commitment stays distinct",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ],
+        "actions": [
+          "i",
+          "a",
+          "b"
+        ],
+        "edges": [
+          [
+            "s0",
+            "a",
+            "s2"
+          ],
+          [
+            "s0",
+            "a",
+            "s3"
+          ],
+          [
+            "s1",
+            "a",
+            "s2"
+          ],
+          [
+            "s2",
+            "b",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    }
+  },
+  {
+    "name": "One silent dead end can matter",
+    "credit": "Prior BisimLab control",
+    "input": {
+      "system": {
+        "states": [
+          "s0",
+          "s1",
+          "s2"
+        ],
+        "actions": [
+          "i",
+          "a"
+        ],
+        "edges": [
+          [
+            "s0",
+            "a",
+            "s2"
+          ],
+          [
+            "s0",
+            "i",
+            "s2"
+          ],
+          [
+            "s1",
+            "a",
+            "s2"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    }
+  },
+  {
+    "name": "Two-step cycle stays in its class",
+    "credit": "Generic original boundary control",
+    "input": {
+      "system": {
+        "states": [
+          "p",
+          "q",
+          "dead"
+        ],
+        "actions": [
+          "i"
+        ],
+        "edges": [
+          [
+            "p",
+            "i",
+            "q"
+          ],
+          [
+            "q",
+            "i",
+            "p"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    }
+  },
+  {
+    "name": "One silent exit is not a cycle",
+    "credit": "Generic original boundary control",
+    "input": {
+      "system": {
+        "states": [
+          "p",
+          "q"
+        ],
+        "actions": [
+          "i"
+        ],
+        "edges": [
+          [
+            "p",
+            "i",
+            "q"
+          ]
+        ]
+      },
+      "silent": [
+        "i"
+      ]
+    }
+  }
+]
