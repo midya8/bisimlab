@@ -1,4 +1,8 @@
-# BisimLab method and attribution
+# BisimLab: visible-action semantics
+
+These notes cover the original strong-bisimulation and finite-trace modes.
+[SILENT.md](SILENT.md) defines hidden-action weak/branching semantics;
+[DIVERGENCE.md](DIVERGENCE.md) defines the separate explicit-divergence mode.
 
 ## Fragment and meaning
 
@@ -26,7 +30,7 @@ Sources were read on November 9, 2026. These establish theory and scope; none es
 
 | Source | Type | Sections read and used | Boundary |
 | --- | --- | --- | --- |
-| [mCRL2, Labelled transition systems](https://www.mcrl2.org/mcrl2/web/user_manual/fundamentals/labelled_transition_systems.html) | Official tool documentation, version 202607.0 | LTS, traces, strong bisimilarity, internal actions and branching contrast | Our model has no designated initial state or silent abstraction |
+| [mCRL2, Labelled transition systems](https://www.mcrl2.org/mcrl2/web/user_manual/fundamentals/labelled_transition_systems.html) | Official tool documentation, version 202607.0 | LTS, traces, strong bisimilarity, internal actions and branching contrast | The original mode has no designated initial state or silent abstraction |
 | [Jurriaan Rot, Coalgebra lecture 7: Non-deterministic systems](https://cs.ru.nl/~jrot/coalg18/coalg-lect7.pdf) (October 18, 2018) | Academic teaching notes | Section 1, trace recursion, nondeterministic choice, transfer clauses and largest bisimulation | Hand-written control has the familiar structure, not new theory; no coalgebra framework implemented |
 | [Herman Geuvers, Apartness and Distinguishing Formulas in Hennessy-Milner Logic](https://www.cs.ru.nl/~herman/PUBS/Apartness_Vaandrager.pdf) (2022) | Primary paper | Introduction, Definition 1, section 2.1 Definition 2 and Proposition 1, image-finiteness caveat | Finite HML witness construction; no weak/branching apartness implemented |
 | [Remco van Os, Computing Minimal Distinguishing Formulas for Bisimulation](https://cs.ru.nl/~freek/courses/mfocs-2024/slides/remco.pdf) (January 21, 2025) | Academic presentation of Martens/Groote work | Strong definition, HML, observation depth, k-bisimilarity, witness recursion, minimal-size warning | Depth is not formula size; no optimization algorithm or claimed new bound |
@@ -36,9 +40,9 @@ Sources were read on November 9, 2026. These establish theory and scope; none es
 
 ## Validation and exclusions
 
-See README for concrete test counts. An exhaustive tiny reference enumerates symmetric diagonal-containing relations directly, independent of fixed-point/partition implementations. Native and browser engines agree on complete reports; this is cross-implementation evidence, not proof. The wheel check runs both installed entry points outside checkout and checks four site-packages module origins.
+See README for concrete test counts. An exhaustive tiny reference enumerates symmetric diagonal-containing relations directly, independent of fixed-point/partition implementations. Native and browser engines agree on complete reports; this is cross-implementation evidence, not proof. The original wheel check covered two installed entry points and four module origins. The current check retains those and adds the trace/silent modes; the separate divergence workflow adds its own installed replay.
 
-No probabilistic systems, transition weights, propositions, weak or branching bisimulation, fairness, rewards, source-code extraction, accepting states, causal attribution or real-agent safety claim. Trace equality alone cannot establish branching equivalence. A syntactically valid hand-written model can omit behavior of the real system it describes.
+The original mode does not implement probabilistic systems, transition weights, propositions, weak or branching bisimulation, fairness, rewards, source-code extraction or accepting states. No mode supplies causal attribution or a real-agent safety claim. Trace equality alone cannot establish branching equivalence. A syntactically valid hand-written model can omit behavior of the real system it describes.
 
 ## Explicitly hidden actions
 
