@@ -42,12 +42,17 @@ Python 3.10+; no runtime dependencies. Node 22+ and Chrome for the optional brow
 
 ```bash
 python -m unittest discover -s tests -v
-npm test
+npm run test:all
 python -m bisimlab input.json --output report.json
 python -m bisimlab report.json --verify
 bash tools/check_wheel.sh
 python -m http.server 8000 --directory docs
 ```
+
+`npm run test:all` runs the nine original Node/Chrome tests and the three
+explicit-divergence tests. `npm test` keeps the original three-mode suite;
+`npm run test:divergence` runs only the separate divergence suite. Python
+tests are still run by the command above.
 
 Or `pip install .` then `bisimlab input.json`. Input:
 
