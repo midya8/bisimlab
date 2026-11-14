@@ -1,1 +1,11 @@
-{"name":"bisimlab","version":"0.3.0","private":true,"type":"module","scripts":{"test":"node --test tests/test_engine.mjs tests/test_browser.cjs tests/test_trace_engine.mjs tests/test_trace_browser.cjs tests/test_silent_engine.mjs tests/test_silent_browser.cjs"}}
+{
+  "name": "bisimlab",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/test_engine.mjs tests/test_browser.cjs tests/test_trace_engine.mjs tests/test_trace_browser.cjs tests/test_silent_engine.mjs tests/test_silent_browser.cjs",
+    "test:divergence": "node --test tests/test_divergence_engine.mjs tests/test_divergence_browser.cjs",
+    "test:all": "npm test && npm run test:divergence"
+  }
+}
