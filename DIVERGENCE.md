@@ -67,7 +67,7 @@ SHA256 `70711c755b1520df061c3a1d25a77da971a920b963da9b9f3182861a2b9ad1f4`; versi
 ```sh
 python -m unittest discover -s tests -v
 npm test
-node --test tests/test_divergence_engine.mjs tests/test_divergence_browser.cjs
+npm run test:divergence
 PYTHONPATH=. python tools/check_divergence_installed.py
 PYTHONPATH=. python tools/check_divergence_mcrl2.py --ltscompare /path/to/ltscompare
 ```
