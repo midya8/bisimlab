@@ -46,4 +46,4 @@ The original mode does not implement probabilistic systems, transition weights, 
 
 ## Explicitly hidden actions
 
-The separate [silent-action inspector](https://midya8.github.io/bisimlab/silent.html) computes strong, unrooted divergence-insensitive branching and weak bisimilarity. The original inspector still treats every label as visible. See [SILENT.md](SILENT.md) for exact endpoint obligations, finite canonical response skeletons, possible-divergence warnings, independent replay, native/browser/external checks and credited definitions. No divergence-preserving or rooted equivalence is implied.
+The separate [silent-action inspector](https://midya8.github.io/bisimulation/silent.html) computes strong, unrooted divergence-insensitive branching and weak bisimilarity. The original inspector still treats every label as visible. See [SILENT.md](SILENT.md) for exact endpoint obligations, finite canonical response skeletons, possible-divergence warnings, independent replay, native/browser/external checks and credited definitions. No divergence-preserving or rooted equivalence is implied.
