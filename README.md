@@ -1,10 +1,10 @@
-# BisimLab
+# Bisimulation
 
-I built BisimLab to answer a small, stubborn question: when are two states of a labelled transition system actually the same? It compares small labelled transition systems and shows you why two states are — or aren't — equivalent: strong-bisimulation rounds, the step matches that failed, distinguishing modal formulas, and finite trace products. There are separate modes for explicitly hidden actions and for divergence-preserving branching.
+I built Bisimulation to answer a small, stubborn question: when are two states of a labelled transition system actually the same? It compares small labelled transition systems and shows you why two states are — or aren't — equivalent: strong-bisimulation rounds, the step matches that failed, distinguishing modal formulas, and finite trace products. There are separate modes for explicitly hidden actions and for divergence-preserving branching.
 
 Everything runs on the Python standard library, and the browser version is a separate JavaScript implementation. There's no model, no API, no dataset download, no hosted inference — the whole thing runs locally.
 
-[Interactive demo](https://midya8.github.io/bisimlab/) · [Method and sources](METHOD.md) · [Native engine](bisimlab/core.py) · [Independent checker](bisimlab/verify.py)
+[Interactive demo](https://midya8.github.io/bisimulation/) · [Method and sources](METHOD.md) · [Native engine](bisimlab/core.py) · [Independent checker](bisimlab/verify.py)
 
 ## The same traces can hide different choices
 
@@ -69,7 +69,7 @@ The established theory is attributed in [METHOD.md](METHOD.md). The code, UI, an
 
 ## Exact trace-product replay (v0.2)
 
-[Trace-product inspector](https://midya8.github.io/bisimlab/traces.html) · [Trace method](TRACES.md)
+[Trace-product inspector](https://midya8.github.io/bisimulation/traces.html) · [Trace method](TRACES.md)
 
 For a single state pair, inspect every reachable paired subset, all action successors, canonical BFS discovery parents and depths, the complete mismatch-node list, and a shortest counterexample path. Unlike the base summary, this mode keeps exploring after finding a mismatch and retains the entire closed reachable graph. It stores provenance links instead of repeating full path strings at every node. No depth cutoff, and no claim that the listed mismatch nodes enumerate all distinguishing words.
 
@@ -84,7 +84,7 @@ Seventeen native tests retain all nine base tests and add all 512 unary three-st
 
 ## Silent-action abstraction (v0.3)
 
-[Separate weak/branching inspector](https://midya8.github.io/bisimlab/silent.html) · [Exact contract and inspected foundations](SILENT.md)
+[Separate weak/branching inspector](https://midya8.github.io/bisimulation/silent.html) · [Exact contract and inspected foundations](SILENT.md)
 
 Hide supplied labels explicitly, then inspect three separate fixed points: strong on the original labels, divergence-insensitive branching, and divergence-insensitive weak bisimilarity. Every removed ordered pair keeps all attacks, canonical finite response-path skeletons, and previous-round relation requirements. Branching preserves the option at the matched step; weak matching may discard it. The default standard contrast is credited to Bisping Example 6.3 — not claimed as a new counterexample.
 
@@ -99,7 +99,7 @@ Independent path/set reconstruction replays every field without calling the gene
 
 ## The loop must stay inside (v0.4)
 
-[Separate explicit-divergence inspector](https://midya8.github.io/bisimlab/divergence.html) · [Exact contract and inspected sources](DIVERGENCE.md)
+[Separate explicit-divergence inspector](https://midya8.github.io/bisimulation/divergence.html) · [Exact contract and inspected sources](DIVERGENCE.md)
 
 Both states can admit infinite silent activity and still fail divergence-preserving branching equivalence. The credited Luttik 2020 Example 3 control makes the missing obligation visible: divergence must stay inside the related class, not merely reach any silent cycle. Every set partition is enumerated (at most 203), with complete per-state internal reachability, exit signatures, canonical nonempty-cycle lassos, and all failed equal-block obligations. Ordinary branching and explicit-divergence coarsest classes are kept separate. These are exhaustive candidates, not fixed-point rounds.
 
