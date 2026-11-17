@@ -1,24 +1,24 @@
 # Bisimulation
 
-I built Bisimulation to answer a small, stubborn question: when are two states of a labelled transition system actually the same? It compares small labelled transition systems and shows you why two states are — or aren't — equivalent: strong-bisimulation rounds, the step matches that failed, distinguishing modal formulas, and finite trace products. There are separate modes for explicitly hidden actions and for divergence-preserving branching.
+I built Bisimulation to answer a small, stubborn question: when are two states of a labelled transition system actually the same? It compares small labelled transition systems and shows you why two states are, or aren't, equivalent: strong-bisimulation rounds, the step matches that failed, distinguishing modal formulas, and finite trace products. There are separate modes for explicitly hidden actions and for divergence-preserving branching.
 
-Everything runs on the Python standard library, and the browser version is a separate JavaScript implementation. There's no model, no API, no dataset download, no hosted inference — the whole thing runs locally.
+Everything runs on the Python standard library, and the browser version is a separate JavaScript implementation. There's no model, no API, no dataset download, no hosted inference, the whole thing runs locally.
 
 [Interactive demo](https://midya8.github.io/bisimulation/) · [Method and sources](METHOD.md) · [Native engine](bisimlab/core.py) · [Independent checker](bisimlab/verify.py)
 
 ## The same traces can hide different choices
 
-An agent can preserve every possible action sequence and still lose the ability to choose what happens next. The default control is built around exactly that: a choice retained after action `a` versus a choice fixed during `a`. The two states have equal finite trace languages — checked exactly through reachable subset pairs — but they fail strong bisimulation at refinement round two. You can inspect every failed same-action response and the distinguishing Hennessy-Milner formula that comes out of it.
+An agent can preserve every possible action sequence and still lose the ability to choose what happens next. The default control is built around exactly that: a choice retained after action `a` versus a choice fixed during `a`. The two states have equal finite trace languages, checked exactly through reachable subset pairs, but they fail strong bisimulation at refinement round two. You can inspect every failed same-action response and the distinguishing Hennessy-Milner formula that comes out of it.
 
 One thing this is not: a statement about LLMs, policies, real software, or deployed agents. It's a hand-written finite protocol model. No source-code extraction or state labeling is inferred.
 
 ## What the strong-bisimulation report shows
 
 - Every ordered state pair, including unreachable states, every synchronous relation round, and the final unchanged round.
-- Every left/right attack for each removed pair — every same-label candidate response, its target pair, and its previous-round status.
+- Every left/right attack for each removed pair, every same-label candidate response, its target pair, and its previous-round status.
 - A deterministic first-failed-attack witness for each removed pair, as a topologically ordered modal formula DAG with truth sets and depth.
 - Greatest-fixed-point equivalence classes and quotient edges.
-- Exact finite trace-language equality, or a shortest distinguishing word via paired reachable-subset BFS — not bounded trace sampling.
+- Exact finite trace-language equality, or a shortest distinguishing word via paired reachable-subset BFS, not bounded trace sampling.
 - A complete downloadable canonical report, independently replayable without calling the analyzer.
 
 ## Picking a semantics
@@ -51,11 +51,11 @@ Or `pip install .` and then `bisimlab input.json`. Input looks like this:
 {"states":["idle","done"],"actions":["send"],"edges":[["idle","send","done"]]}
 ```
 
-Exactly `states`, `actions`, `edges` — one to six states, zero to three actions, at most eighteen unique edge triples. Identifiers are unique ASCII names up to sixteen characters. State and action order define deterministic output order; edge IDs are input positions. Native JSON rejects duplicate keys and nonfinite constants, caps analysis at 65,536 bytes and verification at 8 MiB, and only replaces output atomically after success. The browser uses JSON.parse (last duplicate key wins), then the same value-schema bounds; editing input immediately clears stale results and exports.
+Exactly `states`, `actions`, `edges`, one to six states, zero to three actions, at most eighteen unique edge triples. Identifiers are unique ASCII names up to sixteen characters. State and action order define deterministic output order; edge IDs are input positions. Native JSON rejects duplicate keys and nonfinite constants, caps analysis at 65,536 bytes and verification at 8 MiB, and only replaces output atomically after success. The browser uses JSON.parse (last duplicate key wins), then the same value-schema bounds; editing input immediately clears stale results and exports.
 
 ## What the original strong-mode checks cover
 
-The original nine native tests are still in the suite. They include all 512 directed three-state/one-action graphs checked against enumeration of every symmetric relation containing the diagonal, 100 seeded graphs, semantic quotient checks, input immutability and permutation, canonical report forgeries, generator-disabled checker replay, and strict CLI/atomic-output behavior. The native checker shares input validation only — relation semantics use independent partition signatures, formulas use direct state evaluation, and trace comparison uses explicit frozensets instead of generator bitmasks.
+The original nine native tests are still in the suite. They include all 512 directed three-state/one-action graphs checked against enumeration of every symmetric relation containing the diagonal, 100 seeded graphs, semantic quotient checks, input immutability and permutation, canonical report forgeries, generator-disabled checker replay, and strict CLI/atomic-output behavior. The native checker shares input validation only, relation semantics use independent partition signatures, formulas use direct state evaluation, and trace comparison uses explicit frozensets instead of generator bitmasks.
 
 The original three Node/actual-Chrome tests cover 593 complete Python/JavaScript reports (5,684 pairs, 1,492 rounds, 2,644 modal nodes), validation and immutability, and every control's round, removal, attack, match, pair, and formula at 320/390/1280. Six controls total 17 rounds, 50 removed ordered pairs, 96 attack records, 79 pair results, and 74 modal DAG nodes. Export and invalid-input clearing are checked. These counts describe the fixtures, not performance or general correctness proofs.
 
@@ -86,7 +86,7 @@ Seventeen native tests retain all nine base tests and add all 512 unary three-st
 
 [Separate weak/branching inspector](https://midya8.github.io/bisimulation/silent.html) · [Exact contract and inspected foundations](SILENT.md)
 
-Hide supplied labels explicitly, then inspect three separate fixed points: strong on the original labels, divergence-insensitive branching, and divergence-insensitive weak bisimilarity. Every removed ordered pair keeps all attacks, canonical finite response-path skeletons, and previous-round relation requirements. Branching preserves the option at the matched step; weak matching may discard it. The default standard contrast is credited to Bisping Example 6.3 — not claimed as a new counterexample.
+Hide supplied labels explicitly, then inspect three separate fixed points: strong on the original labels, divergence-insensitive branching, and divergence-insensitive weak bisimilarity. Every removed ordered pair keeps all attacks, canonical finite response-path skeletons, and previous-round relation requirements. Branching preserves the option at the matched step; weak matching may discard it. The default standard contrast is credited to Bisping Example 6.3, not claimed as a new counterexample.
 
 Canonical silent reachability, nonempty cycle witnesses, and per-state possible divergence remain separate. A silent loop and a deadlock may be equivalent under these semantics; no termination, fairness, liveness, or divergence-preserving guarantee follows. State names are not observations, and a label named `tau` is visible unless explicitly hidden.
 
@@ -95,7 +95,7 @@ python -m bisimlab.silent examples/silent.json -o /tmp/silent.json
 python -m bisimlab.silent --verify /tmp/silent.json
 ```
 
-Independent path/set reconstruction replays every field without calling the generator. Small-case test oracles enumerate candidate relations instead of refining them. Native/JS complete reports agree on 1,154 requests; the optional unmodified mCRL2 ltscompare 202507.0 agrees on 350 systems / 5,652 pair-semantics comparisons. All 23 native tests pass on 3.10–3.13, all 9 Node/Chrome tests pass, and an installed wheel reproduces 6 base, 7 trace, and 10 silent controls through four entrypoints outside the checkout, with eight checked module origins and 20 forged-report rejections. Actual local Chrome checks 30 reports at 320/390/1280, 294 rounds, 498 removed-pair selections, 960 attacks, 414 response records, and 10 independently verified downloads. These are bounded coverage counts, not a proof or performance benchmark.
+Independent path/set reconstruction replays every field without calling the generator. Small-case test oracles enumerate candidate relations instead of refining them. Native/JS complete reports agree on 1,154 requests; the optional unmodified mCRL2 ltscompare 202507.0 agrees on 350 systems / 5,652 pair-semantics comparisons. All 23 native tests pass on 3.10-3.13, all 9 Node/Chrome tests pass, and an installed wheel reproduces 6 base, 7 trace, and 10 silent controls through four entrypoints outside the checkout, with eight checked module origins and 20 forged-report rejections. Actual local Chrome checks 30 reports at 320/390/1280, 294 rounds, 498 removed-pair selections, 960 attacks, 414 response records, and 10 independently verified downloads. These are bounded coverage counts, not a proof or performance benchmark.
 
 ## The loop must stay inside (v0.4)
 
